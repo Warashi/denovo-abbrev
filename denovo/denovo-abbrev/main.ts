@@ -31,7 +31,7 @@ export function main(denovo: Denovo): Promise<void> {
       assertString(rbuffer);
       const succeeded = await expand(denovo, lbuffer, rbuffer);
       if (!succeeded) {
-        denovo.eval("zle self-insert; zle redisplay");
+        await denovo.eval("zle self-insert; zle redisplay");
       }
     },
     async "expand-and-accept-line"(lbuffer, rbuffer): Promise<void> {
@@ -40,14 +40,10 @@ export function main(denovo: Denovo): Promise<void> {
       assertString(lbuffer);
       assertString(rbuffer);
       await expand(denovo, lbuffer, rbuffer);
-      denovo.eval("zle accept-line; zle redisplay");
+      await denovo.eval("zle accept-line; zle redisplay");
     },
   };
   return Promise.resolve();
-}
-
-function selfinsert(denovo: Denovo): Promise<string> {
-  return denovo.eval("zle self-insert; zle redisplay");
 }
 
 async function expand(
