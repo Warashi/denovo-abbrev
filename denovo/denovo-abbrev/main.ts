@@ -29,14 +29,18 @@ export function main(denovo: Denovo): Promise<void> {
       rbuffer = rbuffer ?? "";
       assertString(lbuffer);
       assertString(rbuffer);
-      await expand(denovo, lbuffer, rbuffer);
+      const succeeded = await expand(denovo, lbuffer, rbuffer);
+      if (!succeeded) {
+        denovo.eval("zle self-insert; zle redisplay");
+      }
     },
     async "expand-and-accept-line"(lbuffer, rbuffer): Promise<void> {
       lbuffer = lbuffer ?? "";
       rbuffer = rbuffer ?? "";
       assertString(lbuffer);
       assertString(rbuffer);
-      await expand_and_accept(denovo, lbuffer, rbuffer);
+      await expand(denovo, lbuffer, rbuffer);
+      denovo.eval("zle accept-line; zle redisplay");
     },
   };
   return Promise.resolve();
@@ -52,16 +56,13 @@ async function expand(
   rbuffer: string,
 ): Promise<boolean> {
   if (config.snippets == null) {
-    await selfinsert(denovo);
     return false;
   }
   if (/(^$|^\s)/.test(lbuffer) || !/(^$|^\s)/.test(rbuffer)) {
-    await selfinsert(denovo);
     return false;
   }
   const tokens = lbuffer.split(/\s/);
   if (tokens.length !== 1) {
-    await selfinsert(denovo);
     return false;
   }
   const word = tokens[0];
@@ -73,17 +74,5 @@ async function expand(
     await denovo.eval(`LBUFFER="${snippet} "; zle redisplay`);
     return true;
   }
-  await selfinsert(denovo);
   return false;
-}
-
-async function expand_and_accept(
-  denovo: Denovo,
-  lbuffer: string,
-  rbuffer: string,
-): Promise<void> {
-  const succeeded = await expand(denovo, lbuffer, rbuffer);
-  if (succeeded) {
-    denovo.eval("zle accept-line; zle redisplay");
-  }
 }
