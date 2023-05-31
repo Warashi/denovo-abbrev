@@ -7,19 +7,35 @@ you need to install [Deno][deno] and [denovo.zsh][denovo.zsh].
 [deno]: https://deno.land/
 
 # Features
-TBW
+- `denovo-abbrev-expand`: expand abbreviations
+- `denovo-abbrev-expand-and-accept-line`: expand abbreviations and accept line
 
 # Bindings example
-TBW
+```zsh
+bindkey ' '  denovo-abbrev-expand
+bindkey '^m' denovo-abbrev-expand-and-accept-line
+```
 
 # Options
-TBW
-
 You can set options in config file: `$XDG_CONFIG_HOME/denovo/config.toml` or `$HOME/.config/denovo/config.toml`.
 For example:
 
 ```toml
 [plugins.denovo-abbrev]
+[[plugins.denovo-abbrev.snippets]]
+name = "git"
+keyword = "g"
+snippet = "git"
+
+[[plugins.denovo-abbrev.snippets]]
+name = "ls -l"
+keyword = "ll"
+snippet = "ls -l"
+
+[[plugins.denovo-abbrev.snippets]]
+name = "ls -al"
+keyword = "la"
+snippet = "ls -al"
 ```
 
 # License
