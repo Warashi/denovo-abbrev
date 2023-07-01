@@ -21,18 +21,18 @@ You can set options in config file: `$XDG_CONFIG_HOME/denovo/config.toml` or `$H
 For example:
 
 ```toml
-[plugins.denovo-abbrev]
-[[plugins.denovo-abbrev.snippets]]
+[plugins.abbrev]
+[[plugins.abbrev.snippets]]
 name = "git"
 keyword = "g"
 snippet = "git"
 
-[[plugins.denovo-abbrev.snippets]]
+[[plugins.abbrev.snippets]]
 name = "ls -l"
 keyword = "ll"
 snippet = "ls -l"
 
-[[plugins.denovo-abbrev.snippets]]
+[[plugins.abbrev.snippets]]
 name = "ls -al"
 keyword = "la"
 snippet = "ls -al"
