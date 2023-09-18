@@ -29,37 +29,44 @@ export function main(denovo: Denovo): Promise<void> {
       rbuffer = rbuffer ?? "";
       assertString(lbuffer);
       assertString(rbuffer);
-      const succeeded = await expand(denovo, lbuffer, rbuffer);
-      if (!succeeded) {
-        await denovo.eval("zle self-insert; zle redisplay");
+      const expanded = expand(lbuffer, rbuffer);
+      if (expanded) {
+        await denovo.eval(`LBUFFER='${expanded} '; zle redisplay`);
+        return;
       }
+      await denovo.eval(`zle self-insert; zle redisplay`);
     },
     async "expand-and-accept-line"(lbuffer, rbuffer): Promise<void> {
       lbuffer = lbuffer ?? "";
       rbuffer = rbuffer ?? "";
       assertString(lbuffer);
       assertString(rbuffer);
-      await expand(denovo, lbuffer, rbuffer);
-      await denovo.eval("zle accept-line; zle redisplay");
+      const expanded = expand(lbuffer, rbuffer);
+      if (expanded) {
+        await denovo.eval(
+          `LBUFFER='${expanded}'; zle accept-line; zle redisplay`,
+        );
+        return;
+      }
+      await denovo.eval(`zle accept-line; zle redisplay`);
     },
   };
   return Promise.resolve();
 }
 
-async function expand(
-  denovo: Denovo,
+function expand(
   lbuffer: string,
   rbuffer: string,
-): Promise<boolean> {
+): string | undefined {
   if (config.snippets == null) {
-    return false;
+    return undefined;
   }
   if (/(^$|^\s)/.test(lbuffer) || !/(^$|^\s)/.test(rbuffer)) {
-    return false;
+    return undefined;
   }
   const tokens = lbuffer.split(/\s/);
   if (tokens.length !== 1) {
-    return false;
+    return undefined;
   }
   const word = tokens[0];
 
@@ -67,8 +74,7 @@ async function expand(
     if (keyword !== word) {
       continue;
     }
-    await denovo.eval(`LBUFFER="${snippet} "; zle redisplay`);
-    return true;
+    return snippet;
   }
-  return false;
+  return undefined;
 }
