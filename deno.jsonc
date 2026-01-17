@@ -1,11 +1,13 @@
 {
   "lock": false,
+  "workspace": [
+    "denovo/abbrev"
+  ],
   "tasks": {
-    "upgrade": "deno run --no-lock -A https://deno.land/x/udd/main.ts $(find . -name '*.ts')",
-    "check": "deno check --unstable $(find . -name '*.ts')",
-    "lint": "deno lint --unstable $(find . -name '*.ts')",
-    "format-zsh": "beautysh -t $(find . -name '*.zsh')",
-    "format-ts": "deno fmt --unstable $(find . -name '*.ts')",
-    "format": "deno task format-zsh; deno task format-ts",
+    "check": "deno check denovo/**/*.ts",
+    "test": "deno test -A --doc --parallel --shuffle denovo/**/*.ts",
+    "test:coverage": "deno task test --coverage=.coverage",
+    "coverage": "deno coverage .coverage",
+    "bench": "deno bench -A"
   }
 }
