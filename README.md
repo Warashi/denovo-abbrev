@@ -43,5 +43,5 @@ snippet = "ls -al"
 
 # License
 
-The code follows MIT license written in [LICENSE][./LICENSE]. Contributors need
+The code follows MIT license written in [LICENSE](./LICENSE). Contributors need
 to agree that any modifications sent in this repository follow the license.
