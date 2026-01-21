@@ -9,7 +9,7 @@ import { isObjectOf } from "@core/unknownutil/is/object-of";
 import { isString } from "@core/unknownutil/is/string";
 import { type PredicateType } from "@core/unknownutil/type";
 
-import { type Entrypoint } from "@warashi/denovo-core";
+import { type Entrypoint } from "@warashi/denovo-std";
 
 const isSnippet = isObjectOf({
   name: asOptional(isString),
