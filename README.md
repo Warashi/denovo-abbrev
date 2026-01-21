@@ -20,8 +20,8 @@ bindkey '^m' denovo-abbrev-expand-and-accept-line
 
 # Options
 
-You can set options in config file: `$XDG_CONFIG_HOME/denovo-abbrev/config.toml` or
-`$HOME/.config/denovo-abbrev/config.toml`. For example:
+You can set options in config file: `$XDG_CONFIG_HOME/denovo-abbrev/config.toml`
+or `$HOME/.config/denovo-abbrev/config.toml`. For example:
 
 ```toml
 [abbrev]
